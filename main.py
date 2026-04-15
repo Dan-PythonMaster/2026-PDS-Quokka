@@ -1,3 +1,5 @@
+from src.split_data import split_data
+
 def main(features_path, prediction_results_path, model_path, load_model):
     """
     Docstring for main
@@ -11,7 +13,7 @@ def main(features_path, prediction_results_path, model_path, load_model):
     # load dataset CSV file
 
     # split the dataset into training and testing sets.
-
+    train_df, val_df, test_df = split_data(csv_path=features_path, train_pct=0.7, val_pct=0.15, seed=42)
     if load_model:
         # load the model
         pass
