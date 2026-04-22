@@ -3,6 +3,7 @@ import skimage as ski
 import mahotas
 import numpy as np
 import os
+from feature_C import compactness_calc
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -58,18 +59,13 @@ for i in range(len(imgID)):
         mask = mask > 0.5
 
     #compactness
-    area = mask.sum()
-    if area == 0:
-        compactnesses.append(np.nan)
-        continue
-    perimeter = area - ski.morphology.erosion(mask,ski.morphology.disk(3)).sum()  # erosion can be refined to be even finer
-    compactness = perimeter**2 / (area * 12)
+    compactness = compactness_calc(mask)
     compactnesses.append(compactness)
 
 # Add to dataframe
 df["compactness"] = compactnesses
 
-
+print(compactness)
 #save as feature extracted CSV
 PATH = os.path.join(ROOT, "data", "features.csv")
 df.to_csv(PATH)
