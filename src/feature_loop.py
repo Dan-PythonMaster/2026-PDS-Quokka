@@ -3,6 +3,9 @@ import skimage as ski
 import mahotas
 import numpy as np
 import os
+from feature_B import compactness_calc
+
+from feature_C import extract_color_features
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -10,7 +13,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PATH = os.path.join(ROOT, "data", "metadata.csv")
 df = pd.read_csv(PATH)
 
-
+all_rows = []
 # Filter away maskless images
 mask_dir = os.path.join(ROOT, "data", "masks")
 
@@ -32,8 +35,6 @@ mask_dir = os.path.join(ROOT, "data", "masks")
 
 imgID = df["img_id"].to_list()
 diagnosis = df["diagnostic"].to_list()
-compactnesses = []
-
 # ..........
 #
 #  Feature loop. Insert algos here
@@ -58,18 +59,17 @@ for i in range(len(imgID)):
         mask = mask > 0.5
 
     #compactness
-    area = mask.sum()
-    if area == 0:
-        compactnesses.append(np.nan)
-        continue
-    perimeter = area - ski.morphology.erosion(mask,ski.morphology.disk(3)).sum()  # erosion can be refined to be even finer
-    compactness = perimeter**2 / (area * 12)
+    compactness = compactness_calc(mask)
     compactnesses.append(compactness)
+    
+    feature_record = extract_color_features(img, mask)
+    feature_record['compactness'] = compactness
+    feature_record['img_id'] = imgID[i]
+    feature_record['diagnostic'] = diagnosis[i]
+    all_rows.append(feature_record)
+    
+df_features = pd.DataFrame(all_rows)
 
-# Add to dataframe
-df["compactness"] = compactnesses
-
-
-#save as feature extracted CSV
-PATH = os.path.join(ROOT, "data", "features.csv")
-df.to_csv(PATH)
+# 5. Save this new, complete CSV
+output_path = os.path.join(ROOT, "data", "features.csv")
+df_features.to_csv(output_path, index=False)
