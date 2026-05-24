@@ -78,7 +78,16 @@ def test_model(forest, test_df, prediction_results_path="./results/predictions/v
     predictions = forest.predict(test_features)
     print(f"Accuracy: {accuracy_score(test_labels, predictions)}")
     print(classification_report(test_labels, predictions))
-
+   ##################################open question skin tone split
+    if "skin_tone_proxy" in test_df.columns:
+        test_df = test_df.copy()
+        test_df["tertile"] = pd.qcut(
+            test_df["skin_tone_proxy"],
+            q=3,
+            labels=["dark", "medium", "light"]
+        )
+        print("\nSkin tone tertile distribution:")
+        print(test_df["tertile"].value_counts())
     ####################
 
     underlying = forest.forest
