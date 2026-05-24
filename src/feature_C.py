@@ -51,8 +51,8 @@ def extract_color_features(img_rgb, mask):
     features['lab_B_mean'] = lesion_lab[:, 2].mean()  
    
     features['color_nonuniformity'] = lesion_pixels.std(axis=0).mean()
-   # Open Question
-   if len(surrounding) > 100:
+    # Open Question
+    if len(surrounding) > 100:
         les_mean  = lesion_pixels.mean()
         surr_mean = surrounding.mean()
         surr_std  = surrounding.std()
