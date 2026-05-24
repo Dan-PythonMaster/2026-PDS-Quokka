@@ -37,7 +37,7 @@ def main(features_path, prediction_results_path, model_path, load_model):
 
 if __name__ == "__main__":
     features_path = "./data/features.csv"
-    prediction_results_path = "./result/predictions/predictions_MODEL.csv"
+    prediction_results_path = "./results/predictions/predictions_MODEL.csv"
     model_path = "./results/models/model.pkl"
     load_model = False
 
