@@ -1,3 +1,4 @@
 *.csv
 imgs/
 masks/
+imgs_clean/
