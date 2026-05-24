@@ -1,6 +1,5 @@
 import pandas as pd
 import skimage as ski
-import mahotas
 import numpy as np
 import os
 from feature_A import compute_asymmetry
