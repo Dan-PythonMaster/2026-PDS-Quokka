@@ -77,4 +77,3 @@ def extract_color_features(img_rgb, mask):
         features['skin_tone_proxy']       = np.nan
 
     return features
-
