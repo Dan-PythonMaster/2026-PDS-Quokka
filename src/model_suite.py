@@ -27,10 +27,12 @@ def train_classifier(train_df, val_df, model_path="./results/models/model.pkl"):
     '''
     Classifier where new features are easy to add, has a primitive gridsearch and saves the model 
     '''
-    train_features = train_df.drop(columns=["img_id", "diagnostic", "Unnamed: 0"]).select_dtypes(include="number")
+    drop_cols = [c for c in ["img_id", "diagnostic", "Unnamed: 0"] if c in train_df.columns]
+    train_features = train_df.drop(columns=drop_cols).select_dtypes(include="number")
     train_labels = np.where(train_df["diagnostic"].isin(cancerous), "cancerous", "non-cancerous")
 
-    val_features = val_df.drop(columns=["img_id", "diagnostic", "Unnamed: 0"]).select_dtypes(include="number")
+    drop_cols = [c for c in ["img_id", "diagnostic", "Unnamed: 0"] if c in val_df.columns]
+    val_features = val_df.drop(columns=drop_cols).select_dtypes(include="number")
     val_labels = np.where(val_df["diagnostic"].isin(cancerous), "cancerous", "non-cancerous")
 
     best_forest = None
@@ -72,7 +74,8 @@ def test_model(forest, test_df, prediction_results_path="./results/predictions/v
     '''
     Summarizes the model, makes CSV and generates a plot for deeper understanding of the features
     '''
-    test_features = test_df.drop(columns=["img_id", "diagnostic", "Unnamed: 0"]).select_dtypes(include="number")
+    drop_cols = [c for c in ["img_id", "diagnostic", "Unnamed: 0"] if c in test_df.columns]
+    test_features = test_df.drop(columns=drop_cols).select_dtypes(include="number")
     test_labels = np.where(test_df["diagnostic"].isin(cancerous), "cancerous", "non-cancerous")
 
     predictions = forest.predict(test_features)
