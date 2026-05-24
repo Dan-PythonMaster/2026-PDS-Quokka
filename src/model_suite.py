@@ -54,6 +54,10 @@ def train_classifier(train_df, val_df, model_path="./results/models/model.pkl"):
     print(f"Best val accuracy: ",best_val_accuracy)
 
     os.makedirs(os.path.dirname(model_path), exist_ok=True)
+    ConfusionMatrixDisplay.from_predictions(val_labels, best_forest.predict(val_features), cmap="Blues")
+    plt.savefig(model_path.replace(".pkl", "_val_cm.png"), bbox_inches="tight")
+    plt.close()
+
     with open(model_path, "wb") as f:
         pickle.dump(best_forest, f)
     return best_forest
@@ -92,6 +96,10 @@ def test_model(forest, test_df, prediction_results_path="./results/predictions/v
     
     os.makedirs(os.path.dirname(prediction_results_path), exist_ok=True)
     results_df.to_csv(prediction_results_path, index=False)
+    
+    ConfusionMatrixDisplay.from_predictions(test_labels, predictions, cmap="Blues")
+    plt.savefig(prediction_results_path.replace(".csv", "_test_cm.png"), bbox_inches="tight")
+    plt.close()
 
     ####################
 
