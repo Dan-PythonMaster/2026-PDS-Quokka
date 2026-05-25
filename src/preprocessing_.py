@@ -15,7 +15,7 @@ img_dir   = os.path.join(ROOT, "data", "imgs")
 mask_dir  = os.path.join(ROOT, "data", "masks")
 out_dir   = os.path.join(ROOT, "data", "imgs_clean")
 
-timeout_sec = 20
+timeout_sec = 60
 
 
 def hair_mask(gray, lesion_mask):
