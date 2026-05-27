@@ -131,7 +131,7 @@ def test_model(forest, test_df, prediction_results_path="./results/predictions/v
 
 
 if __name__ == "__main__":
-    train_df, val_df, test_df = split_data(csv_path="./data/features.csv", train_pct=0.6, val_pct=0.2, seed=6)
+    train_df, val_df, test_df = split_data(csv_path="./data/features.csv", train_pct=0.65, val_pct=0.2, seed=42)
     train_classifier(train_df, val_df)
     loaded_model = load_model("./results/models/model.pkl")
     test_model(loaded_model, val_df)
