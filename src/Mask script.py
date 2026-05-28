@@ -199,6 +199,11 @@ def main() -> None:
         im = load_image(image_path)
         input_mask = load_mask(mask_path)
 
+        # resize mask to match image in case they differ by a pixel or two
+        if input_mask.shape != im.shape[:2]:
+            from skimage.transform import resize
+            input_mask = (resize(input_mask, im.shape[:2], order=0, anti_aliasing=False) > 0.5).astype(np.uint8)
+
         edge_map = build_edge_map(im)
         if not mask_needs_refinement(input_mask, edge_map):
             save_mask(input_mask, out_mask_path)
