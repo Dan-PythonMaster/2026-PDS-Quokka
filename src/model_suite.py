@@ -123,10 +123,11 @@ def test_model(forest, test_df, prediction_results_path="./results/predictions/v
     fig, (ax_cm, ax_bars) = plt.subplots(1, 2, figsize=(13, 6))
 
     ConfusionMatrixDisplay.from_predictions(test_labels, predictions, cmap="Blues", ax=ax_cm, colorbar=False)
-    mean_shap.plot.barh(ax=ax_bars, color=["blue" if v > 0 else "red" for v in mean_shap])
+    mean_shap.plot.barh(ax=ax_bars, color=["red" if v > 0 else "blue" for v in mean_shap])
   
-    ax_bars.set_title("toward cancerous vs toward non-cancerous")
+    ax_bars.set_title("toward non-cancerous vs toward cancerous")
     plt.tight_layout()
+    plt.savefig(prediction_results_path.replace(".csv", "_shap.png"), bbox_inches="tight")
     plt.show()
 
 

@@ -59,7 +59,8 @@ for i in range(len(imgID)):
 
     # mask to boolean
     if mask.ndim == 3:
-        mask = ski.color.rgb2gray(mask) > 0.5
+        mask = mask[:, :, 0]  # just take first channel, all channels are the same in a mask
+        mask = mask > 0.5
     else:
         mask = mask > 0.5
 
