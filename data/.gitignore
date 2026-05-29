@@ -1,4 +1,6 @@
 *.csv
 imgs/
 masks/
+masks_backup/
+output_masks/
 imgs_clean/
